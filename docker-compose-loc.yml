@@ -1,0 +1,12 @@
+version: "3"
+services:
+  db:
+    container_name: "db_try_rust_solid"
+    restart: always
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: "mysql"
+    volumes:
+      - ./try_rust_solid:/var/lib/try_rust_solid/data
+    ports:
+      - "3306:3306"

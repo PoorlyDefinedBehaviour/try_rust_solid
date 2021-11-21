@@ -1,0 +1,1 @@
+CREATE DATABASE IF NOT EXISTS db_try_rust_solid;
