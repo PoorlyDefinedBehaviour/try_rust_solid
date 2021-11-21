@@ -1,12 +1,11 @@
-#[macro_use]
-extern crate log;
-
 use crate::infra::repositories;
 use actix_cors::Cors;
 use actix_web::{middleware, web::Data, App, HttpServer};
 use dotenv::dotenv;
 use sqlx::mysql::MySqlPoolOptions;
 use std::env;
+use tracing::info;
+use tracing_subscriber;
 
 mod domain;
 mod infra;
@@ -18,7 +17,7 @@ async fn main() -> std::io::Result<()> {
 
   dotenv().ok();
 
-  env_logger::init();
+  tracing_subscriber::fmt::init();
 
   let database_url = env::var("DATABASE_URL").unwrap();
 
