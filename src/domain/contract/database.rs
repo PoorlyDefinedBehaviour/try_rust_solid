@@ -3,9 +3,13 @@ use async_trait::async_trait;
 
 use crate::domain::accounts;
 
-pub struct Database {}
+pub struct Database {
+  pub users: Box<dyn UserRepository>,
+}
 
 #[async_trait]
 pub trait UserRepository {
-  fn upsert(&self, data: accounts::dto::OAuth2User) -> Result<accounts::User>;
+  async fn upsert(&self, data: accounts::dto::UpsertUser) -> Result<accounts::User>;
+  async fn get_by_email(&self, email: &str) -> Result<Option<accounts::User>>;
+  async fn get_by_id(&self, id: u64) -> Result<Option<accounts::User>>;
 }
