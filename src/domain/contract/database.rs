@@ -11,5 +11,4 @@ pub struct Database {
 pub trait UserRepository {
   async fn upsert(&self, data: accounts::dto::UpsertUser) -> Result<accounts::User>;
   async fn get_by_email(&self, email: &str) -> Result<Option<accounts::User>>;
-  async fn get_by_id(&self, id: u64) -> Result<Option<accounts::User>>;
 }

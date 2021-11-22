@@ -19,11 +19,11 @@ struct OAuth2CallbackParams {
 
 #[get("/auth/oauth2/{provider}")]
 async fn oauth2_code_callback(
-  state: web::Data<domain::State>,
+  di: web::Data<domain::DI>,
   query: web::Query<OAuth2CallbackQuery>,
   params: web::Path<OAuth2CallbackParams>,
 ) -> impl Responder {
-  match accounts::oauth2_signin(state.get_ref(), &params.provider, &query.code).await {
+  match accounts::oauth2_signin(di.get_ref(), &params.provider, &query.code).await {
     Err(error) => HttpResponse::ServiceUnavailable().body(format!(
       "
       <h1> deu ruim </h1>
@@ -33,7 +33,7 @@ async fn oauth2_code_callback(
     )),
     Ok(user) => HttpResponse::Ok().body(format!(
       r#"
-      <p> logger in with {} </p>
+      <p> logged in with {} </p>
       <p> {}@{} </p>
       <img src="{}">
     "#,

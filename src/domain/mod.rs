@@ -62,7 +62,7 @@ impl Config {
   }
 }
 
-pub struct State {
+pub struct DI {
   pub config: Config,
   pub db: Database,
   pub oauth2_providers: HashMap<String, Box<dyn accounts::OAuth2Provider>>,

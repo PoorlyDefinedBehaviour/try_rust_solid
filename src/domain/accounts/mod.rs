@@ -29,16 +29,16 @@ pub enum OAuth2SigningError {
   UnexpectedProvider { expected: String, got: String },
 }
 
-pub async fn oauth2_signin(state: &domain::State, provider_name: &str, code: &str) -> Result<User> {
-  match state.oauth2_providers.get(provider_name) {
+pub async fn oauth2_signin(di: &domain::DI, provider_name: &str, code: &str) -> Result<User> {
+  match di.oauth2_providers.get(provider_name) {
     None => bail!("unknown provider: {}", provider_name),
     Some(provider) => {
-      let access_token = provider.exchange_code(&state.config, code).await?;
+      let access_token = provider.exchange_code(&di.config, code).await?;
 
-      let provider_user = provider.fetch_user(&state.config, &access_token).await?;
+      let provider_user = provider.fetch_user(&di.config, &access_token).await?;
 
-      match state.db.users.get_by_email(&provider_user.email).await? {
-        None => state.db.users.upsert(provider_user).await,
+      match di.db.users.get_by_email(&provider_user.email).await? {
+        None => di.db.users.upsert(provider_user).await,
         Some(user) => {
           if user.oauth2_provider != provider_name {
             return Err(
@@ -50,7 +50,7 @@ pub async fn oauth2_signin(state: &domain::State, provider_name: &str, code: &st
             );
           }
 
-          Ok(user)
+          di.db.users.upsert(provider_user).await
         }
       }
     }

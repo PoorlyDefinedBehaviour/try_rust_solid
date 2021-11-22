@@ -7,7 +7,7 @@ pub fn init(config: &mut web::ServiceConfig) {
 }
 
 #[get("/")]
-async fn home(state: web::Data<domain::State>) -> impl Responder {
+async fn home(di: web::Data<domain::DI>) -> impl Responder {
   HttpResponse::Ok().content_type("text/html").body(format!(
     r#"
     <div>
@@ -21,9 +21,9 @@ async fn home(state: web::Data<domain::State>) -> impl Responder {
     "#,
     format!(
       "{}?client_id={}&redirect_uri={}&response_type=code&scope=user:read:email",
-      format!("{}/oauth2/authorize", state.config.twitch.auth_endpoint),
-      state.config.twitch.client_id,
-      format!("{}/auth/oauth2/twitch", state.config.server.endpoint)
+      format!("{}/oauth2/authorize", di.config.twitch.auth_endpoint),
+      di.config.twitch.client_id,
+      format!("{}/auth/oauth2/twitch", di.config.server.endpoint)
     )
   ))
 }

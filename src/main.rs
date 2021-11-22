@@ -38,7 +38,7 @@ async fn main() -> std::io::Result<()> {
 
   HttpServer::new(move || {
     App::new()
-      .app_data(Data::new(domain::State {
+      .app_data(Data::new(domain::DI {
         db: repositories::new(db_pool.clone()),
         config: config.clone(),
         oauth2_providers: oauth2::providers(),
