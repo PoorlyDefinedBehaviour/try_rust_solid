@@ -14,16 +14,22 @@ async fn home(di: web::Data<domain::DI>) -> impl Responder {
       <a href="{}">
         <p> Signin with Twitch <p>
       </a>
-      <a>
+      <a href="{}">
         <p> Signin with Github <p>
       </a>
     </div>
     "#,
     format!(
-      "{}?client_id={}&redirect_uri={}&response_type=code&scope=user:read:email",
-      format!("{}/oauth2/authorize", di.config.twitch.auth_endpoint),
+      "{}/oauth2/authorize?client_id={}&redirect_uri={}&response_type=code&scope=user:read:email",
+      di.config.twitch.auth_endpoint,
       di.config.twitch.client_id,
       format!("{}/auth/oauth2/twitch", di.config.server.endpoint)
-    )
+    ),
+    format!(
+      "{}/login/oauth/authorize?client_id={}&redirect_uri={}&scope=user:email",
+      di.config.github.auth_endpoint,
+      di.config.github.client_id,
+      format!("{}/auth/oauth2/github", di.config.server.endpoint)
+    ),
   ))
 }

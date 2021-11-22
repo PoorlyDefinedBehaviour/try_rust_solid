@@ -25,7 +25,7 @@ pub trait OAuth2Provider {
 
 #[derive(Debug, PartialEq, Error)]
 pub enum OAuth2SigningError {
-  #[error("expected signin with {expected:?}, got {got:?}")]
+  #[error("Account already exists with another provider. Expected {expected:?}, got {got:?}")]
   UnexpectedProvider { expected: String, got: String },
 }
 

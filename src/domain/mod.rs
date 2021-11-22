@@ -16,6 +16,14 @@ pub struct TwitchConfig {
 }
 
 #[derive(Debug, Clone)]
+pub struct GithubConfig {
+  pub auth_endpoint: String,
+  pub api_endpoint: String,
+  pub client_id: String,
+  pub client_secret: String,
+}
+
+#[derive(Debug, Clone)]
 pub struct ServerConfig {
   pub endpoint: String,
   pub host: String,
@@ -31,6 +39,7 @@ pub struct DatabaseConfig {
 pub struct Config {
   pub server: ServerConfig,
   pub twitch: TwitchConfig,
+  pub github: GithubConfig,
   pub database: DatabaseConfig,
 }
 
@@ -49,6 +58,12 @@ impl Config {
         auth_endpoint: env("TWITCH_AUTH_ENDPOINT")?,
         client_id: env("TWITCH_CLIENT_ID")?,
         client_secret: env("TWITCH_CLIENT_SECRET")?,
+      },
+      github: GithubConfig {
+        auth_endpoint: env("GITHUB_AUTH_ENDPOINT")?,
+        api_endpoint: env("GITHUB_API_ENDPOINT")?,
+        client_id: env("GITHUB_CLIENT_ID")?,
+        client_secret: env("GITHUB_CLIENT_SECRET")?,
       },
       server: ServerConfig {
         endpoint: env("ENDPOINT")?,

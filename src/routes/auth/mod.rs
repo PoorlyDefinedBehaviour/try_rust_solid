@@ -34,7 +34,7 @@ async fn oauth2_code_callback(
     Ok(user) => HttpResponse::Ok().body(format!(
       r#"
       <p> logged in with {} </p>
-      <p> {}@{} </p>
+      <p> {} - {} </p>
       <img src="{}">
     "#,
       user.oauth2_provider, user.name, user.email, user.profile_image_url,
