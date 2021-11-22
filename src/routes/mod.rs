@@ -1,3 +1,9 @@
 use actix_web::web;
 
-pub fn init(_config: &mut web::ServiceConfig) {}
+mod auth;
+mod home;
+
+pub fn init(config: &mut web::ServiceConfig) {
+  home::init(config);
+  auth::init(config);
+}
