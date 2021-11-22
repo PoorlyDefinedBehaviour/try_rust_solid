@@ -1,16 +1,24 @@
-use crate::domain;
+use crate::domain::{self, Config};
+use anyhow::Result;
 use async_trait::async_trait;
+use tracing::instrument;
 
 #[derive(Debug)]
 pub struct Github;
 
 #[async_trait]
-impl domain::auth::OAuth2Provider for Github {
-  fn exchange_code(&self, code: String) -> Result<String> {
+impl domain::accounts::OAuth2Provider for Github {
+  #[instrument(skip(self))]
+  async fn exchange_code(&self, config: &Config, code: &str) -> Result<String> {
     todo!()
   }
 
-  fn fetch_user(&self, token: String) -> Result<domain::accounts::dto::OAuth2User> {
+  #[instrument(skip(self))]
+  async fn fetch_user(
+    &self,
+    config: &Config,
+    token: &str,
+  ) -> Result<domain::accounts::dto::UpsertUser> {
     todo!()
   }
 }
